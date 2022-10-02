@@ -47,10 +47,8 @@ def cross(parent_1, parent_2, cross_idx1, cross_idx2):
 def mutation(individual, mutation_idx1, mutation_idx2):
     if mutation_idx1 > mutation_idx2:
         mutation_idx1, mutation_idx2 = mutation_idx2, mutation_idx1
-    individual["chromosome"][mutation_idx1], individual["chromosome"][mutation_idx2] = individual["chromosome"][
-                                                                                           mutation_idx2], \
-                                                                                       individual["chromosome"][
-                                                                                           mutation_idx1]
+    individual["chromosome"][mutation_idx1], individual["chromosome"][mutation_idx2] = \
+        individual["chromosome"][mutation_idx2], individual["chromosome"][mutation_idx1]
     individual["cost"] = cost(individual["chromosome"])
 
 
