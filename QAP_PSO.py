@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-from math import *
 
 n = 0
 dist_matrix = 0

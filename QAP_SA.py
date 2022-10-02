@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-from math import *
 
 n = 0
 dist_matrix = 0
 flow_matrix = 0
 generation_max = 0
-cooling_rate = 0.05
+cooling_rate = 0.99
 temp = 1000.0
 
 
 def read_data(file_dir):
-    global n, dist_matrix, flow_matrix, generation_max, population
+    global n, dist_matrix, flow_matrix, generation_max
     file = open(file_dir, 'r')
     n = int(file.readline())
     distances = []
@@ -50,7 +49,7 @@ def sa_run():
             ap = acceptance_probability(cost(solution), cost(new_solution), temp)
             if ap > np.random.rand():
                 solution = new_solution
-        temp *= 1 - cooling_rate
+        temp *= cooling_rate
         it += 1
         print("第{}次迭代，最优位置为{}，最优值为{}".format(it, solution, cost(solution)))
 
