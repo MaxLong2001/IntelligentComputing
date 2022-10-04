@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import time
+
 import numpy as np
 
 n = 0
@@ -26,7 +28,7 @@ def read_data(file_dir):
         flows.append(list(map(int, lines[i + n].split())))
     dist_matrix = np.array(distances)
     flow_matrix = np.array(flows)
-    generation_max = n * 1000
+    generation_max = n * 100
     print(n, dist_matrix, flow_matrix, generation_max)
 
 
@@ -97,7 +99,14 @@ def pso_run():
         move()
         print("第{}次迭代，最优位置为{}，最优值为{}".format(i, best_group, best_cost))
 
+    return best_group, best_cost
+
 
 if __name__ == '__main__':
-    read_data('.\qap-problems\QAP12.dat')
-    pso_run()
+    data_num = 12
+    read_data(f'.\qap-problems\QAP{data_num}.dat')
+    time_start = time.perf_counter()
+    res, cost = pso_run()
+    time_end = time.perf_counter()
+    with open(f'.\qap-solutions\QAP{data_num}-PSO.txt', 'w', encoding='utf-8') as f:
+        f.write(f'result:\t{res}\ncost:\t{cost}\ntime:\t{time_end - time_start}\n')

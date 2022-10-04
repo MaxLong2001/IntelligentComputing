@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import time
+
 import numpy as np
 from math import *
 
@@ -7,8 +9,8 @@ dist_matrix = 0
 flow_matrix = 0
 generation_max = 0
 population = 100
-p_mutation = 0.02
-p_cross = 0.5
+p_mutation = 0.01
+p_cross = 0.8
 
 
 def read_data(file_dir):
@@ -94,7 +96,7 @@ def ga_run():
         individual_solution["cost"] = cost(individual_solution["chromosome"])
 
     parents.sort(order="cost", kind='mergesort')
-    print(parents)
+    # print(parents)
     for generation in range(generation_max):
         # Tournament selection
         contestant_idx = np.empty(population, dtype=np.int32)
@@ -136,5 +138,10 @@ def ga_run():
 
 
 if __name__ == "__main__":
-    read_data('.\qap-problems\QAP12.dat')
-    chromosome_res, cost_res = ga_run()
+    data_num = 12
+    read_data(f'.\qap-problems\QAP{data_num}.dat')
+    time_start = time.perf_counter()
+    res, cost = ga_run()
+    time_end = time.perf_counter()
+    with open(f'.\qap-solutions\QAP{data_num}-GA.txt', 'w', encoding='utf-8') as f:
+        f.write(f'result:\t{res}\ncost:\t{cost}\ntime:\t{time_end - time_start}\n')

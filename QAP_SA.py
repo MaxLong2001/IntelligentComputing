@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
+import time
+
 import numpy as np
 
 n = 0
 dist_matrix = 0
 flow_matrix = 0
 generation_max = 0
-cooling_rate = 0.99
+cooling_rate = 0.95
 temp = 1000.0
 
 
@@ -47,13 +49,20 @@ def sa_run():
             idx1, idx2 = np.random.randint(0, n, 2)
             new_solution[idx1], new_solution[idx2] = new_solution[idx2], new_solution[idx1]
             ap = acceptance_probability(cost(solution), cost(new_solution), temp)
-            if ap > np.random.rand():
+            if ap >= np.random.rand():
                 solution = new_solution
         temp *= cooling_rate
         it += 1
         print("第{}次迭代，最优位置为{}，最优值为{}".format(it, solution, cost(solution)))
 
+    return solution, cost(solution)
+
 
 if __name__ == '__main__':
-    read_data('.\qap-problems\QAP12.dat')
-    sa_run()
+    data_num = 12
+    read_data(f'.\qap-problems\QAP{data_num}.dat')
+    time_start = time.perf_counter()
+    res, cost = sa_run()
+    time_end = time.perf_counter()
+    with open(f'.\qap-solutions\QAP{data_num}-SA.txt', 'w', encoding='utf-8') as f:
+        f.write(f'result:\t{res}\ncost:\t{cost}\ntime:\t{time_end - time_start}\n')
