@@ -8,6 +8,7 @@ dist_matrix = 0
 flow_matrix = 0
 generation_max = 0
 population = 50
+w = 1
 c1 = 0.75
 c2 = 0.75
 best_group = float('inf')
@@ -58,19 +59,20 @@ def move():
         v_self = update_v(particle_dict[i]["group"], particle_dict[i]["best"])
         v_group = update_v(particle_dict[i]["group"], best_group)
 
-        c1_c = np.random.random(size=[len(v_self), 1])
-        c2_c = np.random.random(size=[len(v_group), 1])
+        r1 = np.random.random(size=[len(v_self), 1])
+        r2 = np.random.random(size=[len(v_group), 1])
 
         v_1 = np.eye(n)
         for j in range(len(v_self)):
-            if c1_c[j] <= c1:
+            if r1[j] <= c1:
                 v_1 = np.dot(v_self[j], v_1)
         v_2 = np.eye(n)
         for j in range(len(v_group)):
-            if c2_c[j] <= c2:
+            if r2[j] <= c2:
                 v_2 = np.dot(v_group[j], v_2)
-        v = np.dot(v_0, v_1)
-        v = np.dot(v, v_2)
+
+        v_0 = v_0 * w
+        v = np.dot(v_0, np.dot(v_1, v_2))
         particle_dict[i]["velocity"] = v
 
         particle_dict[i]["group"] = np.dot(v, particle_dict[i]["group"])
