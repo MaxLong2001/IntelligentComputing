@@ -138,10 +138,12 @@ def ga_run():
 
 
 if __name__ == "__main__":
-    data_num = 12
+    data_num = 32
     read_data(f'.\qap-problems\QAP{data_num}.dat')
-    time_start = time.perf_counter()
-    res, cost = ga_run()
-    time_end = time.perf_counter()
     with open(f'.\qap-solutions\QAP{data_num}-GA.txt', 'w', encoding='utf-8') as f:
-        f.write(f'result:\t{res}\ncost:\t{cost}\ntime:\t{time_end - time_start}\n')
+        for i in range(10):
+            time_start = time.perf_counter()
+            res_group, res_cost = ga_run()
+            time_end = time.perf_counter()
+            f.write(f'No {i + 1}:\n')
+            f.write(f'result:\t{res_group}\ncost:\t{res_cost}\ntime:\t{time_end - time_start}\n')
